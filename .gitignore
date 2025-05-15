@@ -1,0 +1,49 @@
+# General
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-workspace
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node.js - General (covers frontend and backend node_modules)
+node_modules/
+
+# Environment variables - General
+.env
+.env.*
+!.env.example
+
+# Build artifacts - General
+build/
+dist/
+
+# Project Specific
+Walkthrough.md
+
+# Frontend specific (if CRA or similar)
+frontend/build/
+frontend/coverage/
+
+# Backend specific (if not already covered)
+backend/coverage/
+
+# OS generated files
+*.swp
