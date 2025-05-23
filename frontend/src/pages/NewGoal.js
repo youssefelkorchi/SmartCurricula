@@ -1,52 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoalDetailsForm from '../components/GoalDetailsForm';
 import LearningPreferencesForm from '../components/LearningPreferencesForm';
 import ReviewGoal from '../components/ReviewGoal';
 
-// SVG Components for educational theme
-const BookSvg = () => (
-  <svg className="absolute top-20 left-10 w-24 h-24 text-indigo-200 opacity-50 transform rotate-12" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path>
+// Enhanced decorative elements with modern design
+const FloatingIcon = ({ children, className, delay = 0 }) => (
+  <div className={`absolute animate-float ${className}`} style={{ animationDelay: `${delay}s` }}>
+    {children}
+  </div>
+);
+
+const GradientOrb = ({ className, color }) => (
+  <div className={`absolute rounded-full ${className} ${color} animate-float opacity-20 blur-xl`} />
+);
+
+const BookIcon = () => (
+  <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
   </svg>
 );
 
-const LightbulbSvg = () => (
-  <svg className="absolute top-40 right-20 w-20 h-20 text-yellow-200 opacity-50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"></path>
+const LightbulbIcon = () => (
+  <svg className="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
   </svg>
 );
 
-const PencilSvg = () => (
-  <svg className="absolute bottom-20 left-20 w-16 h-16 text-green-200 opacity-50 transform -rotate-12" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+const TargetIcon = () => (
+  <svg className="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
   </svg>
 );
 
-const ChartSvg = () => (
-  <svg className="absolute bottom-40 right-10 w-20 h-20 text-blue-200 opacity-50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-    <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+const RocketIcon = () => (
+  <svg className="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
   </svg>
 );
 
-// Helper component for step indication with animation
+// Enhanced step indicator with modern design and micro-interactions
 const StepIndicator = ({ currentStep, totalSteps }) => {
+  const getStepIcon = (step) => {
+    if (currentStep > step) {
+      return (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+        </svg>
+      );
+    }
+    return step;
+  };
+
   return (
-    <div className="flex justify-center items-center space-x-2 mb-8">
+    <div className="flex justify-center items-center space-x-3 mb-12">
       {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step) => (
         <React.Fragment key={step}>
-          <div
-            className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300 ease-in-out
-              ${currentStep >= step ? 'bg-indigo-600 text-white scale-110' : 'bg-gray-200 text-gray-600'}
-              ${currentStep === step ? 'ring-4 ring-indigo-200 shadow-lg' : ''}`}
-          >
-            {step}
+          <div className="flex flex-col items-center space-y-2">
+            <div
+              className={`relative w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-500 ease-out transform
+                ${currentStep >= step 
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white scale-110 shadow-lg' 
+                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'}
+                ${currentStep === step ? 'ring-4 ring-blue-200 shadow-2xl animate-pulse' : ''}`}
+            >
+              {currentStep >= step && (
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 opacity-20 animate-ping" />
+              )}
+              <span className="relative z-10">{getStepIcon(step)}</span>
+            </div>
+            <div className={`text-xs font-medium transition-colors duration-300
+              ${currentStep >= step ? 'text-blue-600' : 'text-gray-400'}`}>
+              {step === 1 ? 'Details' : step === 2 ? 'Preferences' : 'Review'}
+            </div>
           </div>
           {step < totalSteps && (
-            <div className={`h-1 w-16 transition-all duration-500 ease-in-out
-              ${currentStep > step ? 'bg-indigo-600' : 'bg-gray-200'}`}
-            />
+            <div className="flex-1 h-0.5 mx-4 relative overflow-hidden rounded-full bg-gray-200">
+              <div 
+                className={`absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-700 ease-out
+                  ${currentStep > step ? 'w-full' : 'w-0'}`}
+              />
+            </div>
           )}
         </React.Fragment>
       ))}
@@ -57,6 +91,8 @@ const StepIndicator = ({ currentStep, totalSteps }) => {
 function NewGoal() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const totalSteps = 3;
 
   const [goalData, setGoalData] = useState({
@@ -64,26 +100,50 @@ function NewGoal() {
     description: '',
     knowledgeLevel: 'beginner',
     learningStyle: 'videos',
+    topics: [],
     // Add other fields as needed from your schema
   });
 
-  const handleNext = (data) => {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleNext = async (data) => {
+    setIsTransitioning(true);
     setGoalData(prevData => ({ ...prevData, ...data }));
+    
+    // Add a small delay for smooth transition
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
     } else {
-      // Handle final submission
-      console.log('Submitting Goal:', goalData);
-      // Here you would typically make an API call to save the goal
-      // For now, let's navigate to the dashboard as an example
-      alert('Goal submitted successfully! (Mock)');
-      navigate('/dashboard'); // Navigate to dashboard or path view page
+      // Handle final submission with enhanced feedback
+      try {
+        console.log('Submitting Goal:', { ...goalData, ...data });
+        // Here you would typically make an API call to save the goal
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Success feedback
+        const successMessage = `🎉 Congratulations! Your learning goal "${goalData.title || data.title}" has been created successfully!`;
+        alert(successMessage);
+        navigate('/dashboard'); // Navigate to dashboard or path view page
+      } catch (error) {
+        console.error('Error submitting goal:', error);
+        alert('There was an error creating your goal. Please try again.');
+      }
     }
+    
+    setIsTransitioning(false);
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = async () => {
     if (currentStep > 1) {
+      setIsTransitioning(true);
+      await new Promise(resolve => setTimeout(resolve, 200));
       setCurrentStep(prev => prev - 1);
+      setIsTransitioning(false);
     }
   };
 
@@ -97,78 +157,197 @@ function NewGoal() {
     }
   };
 
-  // Motivational quotes for learners
-  const quotes = [
-    "Education is the passport to the future, for tomorrow belongs to those who prepare for it today.",
-    "The beautiful thing about learning is that no one can take it away from you.",
-    "The more that you read, the more things you will know. The more that you learn, the more places you'll go."
+  // Enhanced motivational content for learners
+  const inspirationalContent = [
+    {
+      quote: "The future belongs to those who believe in the beauty of their dreams.",
+      author: "Eleanor Roosevelt",
+      icon: "✨"
+    },
+    {
+      quote: "Education is the most powerful weapon which you can use to change the world.",
+      author: "Nelson Mandela",
+      icon: "🌍"
+    },
+    {
+      quote: "The beautiful thing about learning is that no one can take it away from you.",
+      author: "B.B. King",
+      icon: "🎯"
+    },
+    {
+      quote: "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+      author: "Mahatma Gandhi",
+      icon: "🚀"
+    },
+    {
+      quote: "The more that you read, the more things you will know. The more that you learn, the more places you'll go.",
+      author: "Dr. Seuss",
+      icon: "📚"
+    }
   ];
   
-  // Randomly select a quote
-  const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  // Select content based on current step for contextual motivation
+  const getCurrentInspiration = () => {
+    const stepIndex = (currentStep - 1) % inspirationalContent.length;
+    return inspirationalContent[stepIndex];
+  };
+  
+  const currentInspiration = getCurrentInspiration();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-12 relative overflow-hidden">
-      {/* Decorative SVG elements */}
-      <BookSvg />
-      <LightbulbSvg />
-      <PencilSvg />
-      <ChartSvg />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
+      {/* Enhanced background with modern gradient mesh */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-emerald-50/50" />
       
-      {/* Abstract shapes */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-        <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-        <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-indigo-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
-      </div>
-
-      <header className="max-w-4xl mx-auto mb-10 px-4 sm:px-6 relative z-10">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-2">Create Your Learning Goal</h1>
-        <p className="text-center text-gray-600 text-lg">Let's define what you want to learn and how you prefer to learn it.</p>
-      </header>
+      {/* Floating decorative elements */}
+      <FloatingIcon className="top-20 left-16 p-4 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg" delay={0}>
+        <BookIcon />
+      </FloatingIcon>
+      <FloatingIcon className="top-32 right-20 p-4 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg" delay={1}>
+        <LightbulbIcon />
+      </FloatingIcon>
+      <FloatingIcon className="bottom-32 left-20 p-4 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg" delay={2}>
+        <TargetIcon />
+      </FloatingIcon>
+      <FloatingIcon className="bottom-20 right-16 p-4 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg" delay={0.5}>
+        <RocketIcon />
+      </FloatingIcon>
       
-      <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-xl border border-gray-100 transition-all duration-300 hover:shadow-2xl mb-8 px-4 sm:px-6 relative z-10">
-        <div className="mb-6">
-          <div className="flex justify-center">
-            <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
-              Step {currentStep} of {totalSteps}: {getStepTitle()}
-            </span>
+      {/* Modern gradient orbs */}
+      <GradientOrb className="top-1/4 left-1/4 w-96 h-96" color="bg-gradient-to-r from-blue-400 to-purple-500" />
+      <GradientOrb className="top-1/3 right-1/4 w-80 h-80" color="bg-gradient-to-r from-emerald-400 to-blue-500" />
+      <GradientOrb className="bottom-1/4 right-1/3 w-72 h-72" color="bg-gradient-to-r from-purple-400 to-pink-500" />
+      
+      {/* Main content container */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Enhanced header with better typography and spacing */}
+        <header className={`max-w-6xl mx-auto pt-12 pb-8 px-4 sm:px-6 text-center transition-all duration-1000 transform ${
+          mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+        }`}>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-6 shadow-lg">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-4 leading-tight">
+            Create Your Learning Goal
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Embark on a personalized learning journey tailored to your goals, preferences, and aspirations.
+          </p>
+        </header>
+        
+        {/* Enhanced main form container */}
+        <div className={`flex-1 flex items-center justify-center px-4 sm:px-6 transition-all duration-700 transform ${
+          mounted ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
+        }`}>
+          <div className="w-full max-w-4xl">
+            {/* Step indicator */}
+            <div className="mb-8">
+              <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
+            </div>
+            
+            {/* Main form card */}
+            <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-500 hover:shadow-3xl">
+              {/* Card header with gradient */}
+              <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 p-1">
+                <div className="bg-white rounded-t-3xl px-8 py-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                    </div>
+                    <div className="flex items-center space-x-2 text-sm text-gray-500">
+                      <span className="font-medium">Step {currentStep} of {totalSteps}</span>
+                      <span className="px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full font-medium">
+                        {getStepTitle()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Form content with smooth transitions */}
+              <div className="p-8 md:p-12">
+                <div className={`transition-all duration-500 ease-in-out transform ${
+                  isTransitioning ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'
+                }`}>
+                  {currentStep === 1 && (
+                    <div className="animate-fadeInUp">
+                      <GoalDetailsForm 
+                        initialData={{ title: goalData.title, description: goalData.description, topics: goalData.topics }}
+                        onNext={handleNext} 
+                      />
+                    </div>
+                  )}
+                  {currentStep === 2 && (
+                    <div className="animate-fadeInUp animation-delay-500">
+                      <LearningPreferencesForm
+                        initialData={{ knowledgeLevel: goalData.knowledgeLevel, learningStyle: goalData.learningStyle }}
+                        onNext={handleNext}
+                        onPrevious={handlePrevious}
+                      />
+                    </div>
+                  )}
+                  {currentStep === 3 && (
+                    <div className="animate-fadeInUp animation-delay-1000">
+                      <ReviewGoal
+                        goalData={goalData}
+                        onConfirm={handleNext}
+                        onPrevious={handlePrevious}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
-        <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
-
-        <div className="transition-opacity duration-300 ease-in-out">
-          {currentStep === 1 && (
-            <GoalDetailsForm 
-              initialData={{ title: goalData.title, description: goalData.description }}
-              onNext={handleNext} 
-            />
-          )}
-          {currentStep === 2 && (
-            <LearningPreferencesForm
-              initialData={{ knowledgeLevel: goalData.knowledgeLevel, learningStyle: goalData.learningStyle }}
-              onNext={handleNext}
-              onPrevious={handlePrevious}
-            />
-          )}
-          {currentStep === 3 && (
-            <ReviewGoal
-              goalData={goalData}
-              onConfirm={handleNext} // handleNext will act as submit on the last step
-              onPrevious={handlePrevious}
-            />
-          )}
+        {/* Enhanced inspirational footer */}
+        <div className={`mt-12 pb-12 px-4 sm:px-6 transition-all duration-1000 delay-500 transform ${
+          mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+        }`}>
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white/30 text-center">
+              <div className="flex items-center justify-center mb-4">
+                <span className="text-3xl mr-3">{currentInspiration.icon}</span>
+                <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
+              </div>
+              
+              <blockquote className="text-lg md:text-xl text-gray-700 font-medium italic leading-relaxed mb-4">
+                "{currentInspiration.quote}"
+              </blockquote>
+              
+              <cite className="text-sm font-semibold text-gray-500 not-italic">
+                — {currentInspiration.author}
+              </cite>
+              
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {currentStep === 1 && "🎯 Define your learning destination with clarity and purpose."}
+                  {currentStep === 2 && "⚙️ Customize your learning experience to match your unique style."}
+                  {currentStep === 3 && "🚀 Review and launch your personalized learning journey."}
+                </p>
+              </div>
+              
+              {/* Progress indicator */}
+              <div className="mt-6">
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="text-xs text-gray-500 font-medium">Progress</span>
+                  <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-700 ease-out"
+                      style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-gray-500 font-medium">{Math.round((currentStep / totalSteps) * 100)}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      
-      <div className="max-w-2xl mx-auto text-center mt-6 relative z-10">
-        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100 mb-4">
-          <p className="text-gray-700 italic">"{randomQuote}"</p>
-        </div>
-        <p className="text-sm text-gray-500">
-          Your learning journey is about to begin. Take your time to set meaningful goals.
-        </p>
       </div>
     </div>
   );

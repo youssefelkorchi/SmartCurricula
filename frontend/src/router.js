@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from './App';
 
 // Import your page components
 import LandingPage from './pages/LandingPage';

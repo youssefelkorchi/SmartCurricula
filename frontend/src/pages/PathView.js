@@ -1,8 +1,7 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function PathView() {
-  const { goalId } = useParams();
   
   // Mock data for a learning path
   const path = {
