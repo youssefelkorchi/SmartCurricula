@@ -1,7 +1,23 @@
 {
   "name": "smartcurricula",
   "version": "0.1.0",
+  "description": "Epic learning platform with personalized AI-powered curricula and stunning visual experiences",
   "private": true,
+  "author": "Youssef EL Korchi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/youssefelkorchi/SmartCurricula.git"
+  },
+  "keywords": [
+    "react",
+    "learning-platform",
+    "education",
+    "tailwindcss",
+    "ui-ux",
+    "curriculum",
+    "personalized-learning"
+  ],
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
