@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-// Import your page components
+// Import all page components for routing
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import NewGoal from './pages/NewGoal';
@@ -9,7 +9,7 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
-// Define routes
+// Define application routes
 const router = createBrowserRouter([
   {
     path: '/',

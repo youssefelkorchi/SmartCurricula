@@ -82,6 +82,50 @@ code {
   box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
 }
 
+/* Timeline animations */
+@keyframes timelineFloat {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-20px); 
+  }
+}
+
+.timeline-item {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stage-locked .timeline-item {
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.animate-timeline-float {
+  animation: timelineFloat 6s ease-in-out infinite;
+}
+
+/* Responsive timeline adjustments */
+@media (max-width: 768px) {
+  .timeline-item {
+    width: 100% !important;
+    left: 0 !important;
+    padding-left: 3rem !important;
+    padding-right: 0 !important;
+  }
+  
+  .timeline-item::before {
+    left: 1.5rem !important;
+  }
+}
+
 /* Backdrop blur fallback for older browsers */
 @supports not (backdrop-filter: blur(12px)) {
   .backdrop-blur-xl {

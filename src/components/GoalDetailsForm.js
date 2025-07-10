@@ -12,17 +12,17 @@ function GoalDetailsForm({ initialData, onNext }) {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   
-  // Animation states
+  // Animation state management for UI feedback
   const [isFocused, setIsFocused] = useState({
     title: false,
     description: false
   });
 
-  // Auto-save draft functionality
+  // Auto-save draft functionality (not implemented in demo)
   useEffect(() => {
     const timer = setTimeout(() => {
       if (title.trim() || description.trim()) {
-        // Auto-save logic would go here
+        // Place auto-save logic here if needed
         console.log('Auto-saving draft...');
       }
     }, 2000);
@@ -45,7 +45,7 @@ function GoalDetailsForm({ initialData, onNext }) {
     e.preventDefault();
     if (validateForm()) {
       setIsLoading(true);
-      // Simulate API call
+      // (Demo only) Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 800));
       setIsLoading(false);
       setShowSuccess(true);

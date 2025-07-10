@@ -4,7 +4,7 @@ import GoalDetailsForm from '../components/GoalDetailsForm';
 import LearningPreferencesForm from '../components/LearningPreferencesForm';
 import ReviewGoal from '../components/ReviewGoal';
 
-// Enhanced decorative elements with modern design
+// Decorative elements for enhanced UI
 const FloatingIcon = ({ children, className, delay = 0 }) => (
   <div className={`absolute animate-float ${className}`} style={{ animationDelay: `${delay}s` }}>
     {children}
@@ -39,7 +39,7 @@ const RocketIcon = () => (
   </svg>
 );
 
-// Enhanced step indicator with modern design and micro-interactions
+// Step indicator with micro-interactions for better UX
 const StepIndicator = ({ currentStep, totalSteps }) => {
   const getStepIcon = (step) => {
     if (currentStep > step) {
@@ -101,7 +101,7 @@ function NewGoal() {
     knowledgeLevel: 'beginner',
     learningStyle: 'videos',
     topics: [],
-    // Add other fields as needed from your schema
+    // Add additional fields as required by your data schema
   });
 
   useEffect(() => {
@@ -112,23 +112,23 @@ function NewGoal() {
     setIsTransitioning(true);
     setGoalData(prevData => ({ ...prevData, ...data }));
     
-    // Add a small delay for smooth transition
+    // (Demo only) Simulate a short delay for smooth UI transitions
     await new Promise(resolve => setTimeout(resolve, 300));
     
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
     } else {
-      // Handle final submission with enhanced feedback
+      // Handle final submission and provide user feedback
       try {
         console.log('Submitting Goal:', { ...goalData, ...data });
-        // Here you would typically make an API call to save the goal
+        // In a real app, make an API call to save the goal here
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Success feedback
+        // Provide user feedback on successful submission
         const successMessage = `🎉 Congratulations! Your learning goal "${goalData.title || data.title}" has been created successfully!`;
         alert(successMessage);
-        navigate('/dashboard'); // Navigate to dashboard or path view page
+        navigate('/dashboard'); // Navigate to dashboard or path view after submission
       } catch (error) {
         console.error('Error submitting goal:', error);
         alert('There was an error creating your goal. Please try again.');
@@ -147,7 +147,7 @@ function NewGoal() {
     }
   };
 
-  // Get step title based on current step
+  // Get the step title based on the current step
   const getStepTitle = () => {
     switch(currentStep) {
       case 1: return "Goal Details";
@@ -157,7 +157,7 @@ function NewGoal() {
     }
   };
 
-  // Enhanced motivational content for learners
+  // Provide motivational content for learners
   const inspirationalContent = [
     {
       quote: "The future belongs to those who believe in the beauty of their dreams.",
@@ -186,7 +186,7 @@ function NewGoal() {
     }
   ];
   
-  // Select content based on current step for contextual motivation
+  // Select motivational content based on the current step
   const getCurrentInspiration = () => {
     const stepIndex = (currentStep - 1) % inspirationalContent.length;
     return inspirationalContent[stepIndex];

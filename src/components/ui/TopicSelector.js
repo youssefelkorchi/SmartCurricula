@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TopicSelector = ({ selectedTopics, onChange }) => {
-  // Sample topics - in a real app, these might come from an API
+  // Sample topics for demonstration; in production, fetch from API
   const availableTopics = [
     { id: 'web-dev', name: 'Web Development', color: 'bg-blue-100 text-blue-800 border-blue-200' },
     { id: 'mobile-dev', name: 'Mobile Development', color: 'bg-purple-100 text-purple-800 border-purple-200' },
