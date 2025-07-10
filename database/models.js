@@ -1,5 +1,0 @@
-//
-Database
-models
-for
-MongoDB

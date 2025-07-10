@@ -1,49 +1,47 @@
-# General
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# IDEs and editors
-.idea/
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.sublime-workspace
-
-# Logs
-logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Node.js - General (covers frontend and backend node_modules)
-node_modules/
-
-# Environment variables - General
-.env
-.env.*
-!.env.example
-
-# Build artifacts - General
-build/
-dist/
-
-# Project Specific
-Walkthrough.md
-
-# Frontend specific (if CRA or similar)
-frontend/build/
-frontend/coverage/
-
-# Backend specific (if not already covered)
-backend/coverage/
-
-# OS generated files
+# IDE and Editor files
+.idea/
+.vscode/
 *.swp
+*.swo
+.vs/
+
+# Temporary files
+.temp
+.tmp
+.cache/
+
+# Optional: Local development
+.env
+
+# Optional: If using TypeScript
+*.tsbuildinfo
+
+# Optional: If using ESLint
+.eslintcache
+
+# Optional: If using npm
+.npm/

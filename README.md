@@ -1,92 +1,68 @@
-# SmartCurricula
+# SmartCurricula - Frontend
 
-A personalized learning path generator that creates customized curricula based on your learning style, pace, and goals.
+This directory contains the React frontend for the SmartCurricula application. It's built with Create React App and styled with TailwindCSS.
 
-## 🌟 Features
+## ✨ Key Features
 
-- **Personalized Learning Paths**: Get a structured learning path tailored to your:
-  - Current knowledge level
-  - Preferred learning style (videos, articles, hands-on)
-  - Learning pace
-
-- **Progress Tracking**: Keep track of your learning journey with simple progress indicators
-
-- **Resource Curation**: Access carefully selected learning resources matched to your preferences
+- User registration and login (via Firebase Auth)
+- Defining learning goals through a multi-step form
+- Viewing personalized learning paths
+- Tracking progress on learning goals
+- Managing user profiles and preferences
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React + TailwindCSS
-- **Backend**: Node.js + Express
-- **Database**: MongoDB
-- **Authentication**: Firebase Auth
+- React
+- React Router for navigation
+- TailwindCSS for styling
+- Axios for API requests
+- Firebase for authentication
 
-## 🚀 Getting Started
+## 🚀 Available Scripts
 
-### Prerequisites
+In this directory, you can run:
 
-- Node.js (v14 or higher)
-- npm or yarn
-- MongoDB
+### `npm start`
 
-### Installation
+Runs the app in development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/yourusername/smartcurricula.git
-   cd smartcurricula
-   ```
+The page will reload when you make changes.
+You may also see any lint errors in the console.
 
-2. Install frontend dependencies
-   ```bash
-   cd frontend
-   npm install
-   ```
+### `npm test`
 
-3. Install backend dependencies
-   ```bash
-   cd ../backend
-   npm install
-   ```
+Launches the test runner in interactive watch mode.
 
-4. Set up environment variables
-   - Create `.env` files in both frontend and backend directories
-   - Add necessary environment variables (see `.env.example` files)
+### `npm run build`
 
-5. Start the development servers
-   ```bash
-   # Terminal 1 - Frontend
-   cd frontend
-   npm start
+Builds the app for production to the `build` folder.
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-   # Terminal 2 - Backend
-   cd backend
-   npm run dev
-   ```
+### `npm run eject`
 
-## 📁 Project Structure
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+## 📁 Folder Structure
 
 ```
-smartcurricula/
-├── backend/           # Express server
-│   ├── routes/       # API routes
-│   ├── controllers/  # Route controllers
-│   ├── models/       # Database models
-│   └── utils/        # Utility functions
-├── frontend/         # React application
-│   ├── public/       # Static files
-│   └── src/
-│       ├── components/  # Reusable components
-│       ├── pages/       # Page components
-│       ├── hooks/       # Custom React hooks
-│       └── utils/       # Utility functions
-├── database/         # Database configuration
-└── docs/            # Documentation
+frontend/
+├── public/         # Static assets
+└── src/
+    ├── components/   # Reusable UI components
+    ├── pages/        # Top-level page components
+    ├── hooks/        # Custom React Hooks
+    ├── utils/        # Utility functions and helpers
+    ├── App.js        # Main application component
+    ├── index.js      # Entry point of the React app
+    ├── router.js     # React Router configuration
+    └── index.css     # Global styles and Tailwind directives
 ```
 
-## 🤝 Contributing
+## Learn More
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To learn React, check out the [React documentation](https://reactjs.org/).
